@@ -131,7 +131,7 @@ namespace Script.Solder
         {
             while (_stateMachine.State == walkCommand)
             {
-                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+                var distanceToPlayer = Vector3.Distance(transform.position, player.position);
                 
                 if (distanceToPlayer > detectionRange || isOnCooldown)
                 {
@@ -150,7 +150,7 @@ namespace Script.Solder
         {
             while (_stateMachine.State == runCommand)
             {
-                float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+                var distanceToPlayer = Vector3.Distance(transform.position, player.position);
                 
                 if (distanceToPlayer > detectionRange || isOnCooldown)
                 {
