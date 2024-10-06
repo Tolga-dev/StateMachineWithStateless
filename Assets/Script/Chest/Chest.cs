@@ -1,3 +1,4 @@
+using System;
 using Script.Core;
 using Stateless;
 using UnityEngine;
@@ -9,31 +10,38 @@ namespace Script.Chest
         public Command openChest = new Command("OpenChest");
         public Command closeChest = new Command("CloseChest");
 
-        private StateMachine<Command, KeyCode> _stateMachine;
+        public Trigger openChestTrigger = new Trigger("OpenChestTrigger");
+        public Trigger closeChestTrigger = new Trigger("CloseChestTrigger");
+        
+        private StateMachine<Command, Trigger> _stateMachine;
 
         private void Awake()
         {
-            _stateMachine = new StateMachine<Command, KeyCode>(openChest);
+            _stateMachine = new StateMachine<Command, Trigger>(closeChest);
             
-            _stateMachine
-                .Configure(openChest)
-                .OnEntry(OnOpened)
-                .Permit(KeyCode.Space, closeChest);
-
-            _stateMachine
-                .Configure(closeChest)
-                .OnEntry(OnClosed)
-                .Permit(KeyCode.Space, openChest);
+            _stateMachine.Configure(openChest).OnEntry(OnOpened).Permit(openChestTrigger, closeChest);
+            _stateMachine.Configure(closeChest).OnEntry(OnClosed).Permit(closeChestTrigger, openChest);
         }
 
         private void Update()
         {
-            if (!Input.GetKeyDown(KeyCode.Space)) return;
-            ToggleState();
+            if (Input.GetMouseButtonDown(0)) Open();
+            else if (Input.GetMouseButtonDown(1)) Close();
+            
         }
 
-        private void ToggleState() => _stateMachine.Fire(KeyCode.Space);
+        private void Open()
+        {
+            if (!_stateMachine.CanFire(openChestTrigger)) return;
+            _stateMachine.Fire(openChestTrigger);
+            
+        }
 
+        private void Close()
+        {
+            if (!_stateMachine.CanFire(closeChestTrigger)) return;
+            _stateMachine.Fire(closeChestTrigger);
+        }
         private void OnClosed()
         {
             Debug.Log("On Closed");
