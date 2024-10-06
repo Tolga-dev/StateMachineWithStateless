@@ -17,10 +17,10 @@ The project contains the following directories and files:
 ## Examples
 In Scripts, you will find the following examples:
 
-* **[Chest](Script/Chest/)** 
-* **[Detector](Script/Detector/)**
-* **[Solder](Script/Solder/)**
-* **[Switcher](Script/Switcher/)**
+* **[Chest](Assets/Script/Chest/)**
+* **[EnemyDetector](Assets/Script/EnemyDetector/)**
+* **[Solder](Assets/Script/Solder/)**
+* **[Switcher](Assets/Script/Switcher/)**
   
 ## Getting Started
 
