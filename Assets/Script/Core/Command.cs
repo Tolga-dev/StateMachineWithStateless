@@ -11,5 +11,8 @@ namespace Script.Core
         {
             this.id = id;
         }
+        public Command()
+        {
+        }
     }
 }

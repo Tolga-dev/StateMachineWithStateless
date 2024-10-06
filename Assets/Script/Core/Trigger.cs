@@ -10,5 +10,9 @@ namespace Script.Core
         {
             
         }
+        public Trigger() : base()
+        {
+            
+        }
     }
 }
