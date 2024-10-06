@@ -9,12 +9,16 @@ namespace Script.Switcher
     public class Switch : MonoBehaviour
     {
         [Header("Machine")]
-        StateMachine<Command, string> _stateMachine;
+        private StateMachine<Command, Trigger> _stateMachine;
         
         [Header("Commands")]
         public Command idleCommand = new Command("Idle");
         public Command onCommand = new Command("On");
         public Command offCommand = new Command("Off");
+
+        [Header("Triggers")]
+        public Trigger onTrigger = new Trigger("On");
+        public Trigger offTrigger = new Trigger("Off");
 
         [Header("UI Indicator")] 
         public TextMeshProUGUI currentAction;
@@ -24,20 +28,34 @@ namespace Script.Switcher
         
         private void Start()
         {
-            _stateMachine = new StateMachine<Command, string>(idleCommand);
+            _stateMachine = new StateMachine<Command, Trigger>(idleCommand);
             
-            _stateMachine.Configure(onCommand).Permit("Sex", offCommand);
-            _stateMachine.Configure(offCommand).Permit("Sex", onCommand);
+            _stateMachine
+                .Configure(onCommand)
+                .OnEntry(OnChestOpened)
+                .Permit(offTrigger, offCommand);
+
+            _stateMachine
+                .Configure(offCommand)
+                .OnEntry(OnChestClosed)
+                .Permit(onTrigger, onCommand);
                 
             changeAction.onClick.AddListener(ChangeAction);
 
             UpdateUI();
         }
 
+        private void OnChestClosed()
+        {
+            Debug.Log("Closed");
+        }
+        private void OnChestOpened()
+        {
+            Debug.Log("Opened");
+        }
+        
         private void ChangeAction()
         {
-            _stateMachine.Fire("Sex");
-
             UpdateUI();
         }
     
