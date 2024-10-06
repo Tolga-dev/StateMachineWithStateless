@@ -1,0 +1,3 @@
+[submodule "Assets/stateless"]
+	path = Assets/stateless
+	url = git@github.com:dotnet-state-machine/stateless.git
